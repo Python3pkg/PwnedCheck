@@ -2,8 +2,8 @@ __author__ = 'Casey Dunham'
 __version__ = "0.1.2"
 
 
-import urllib
-import urllib2
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
 import json
 
 
@@ -15,11 +15,11 @@ class InvalidEmail(Exception):
 
 
 def check(email):
-    req = urllib2.Request(PWNED_API_URL % urllib.quote(email))
+    req = urllib.request.Request(PWNED_API_URL % urllib.parse.quote(email))
     try:
-        resp = urllib2.urlopen(req)
+        resp = urllib.request.urlopen(req)
         return json.loads(resp.read())
-    except urllib2.HTTPError, e:
+    except urllib.error.HTTPError as e:
         if e.code == 400:
             raise InvalidEmail("Email address does not appear to be a valid email")
         return []
